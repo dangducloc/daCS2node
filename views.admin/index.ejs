@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
+    integrity="sha512-SIMGYRUjwY8+gKg7nn9EItdD8LCADSDfJNutF9TPrvEo86sQmFMh6MyralfIyhADlajSxqc7G0gs7+MwWF/ogQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <title>Admin</title>
+</head>
+<style>
+  @media (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+      display: flex !important;
+      flex-basis: revert;
+      flex-direction: row-reverse;
+    }
+  }
+</style>
+
+<body>
+  <!-- top navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+        aria-controls="offcanvasExample">
+        <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
+      </button>
+      <a class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold" href="#">Frontendfunn</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar"
+        aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topNavBar">
+
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="bi bi-person-fill"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/Sign out">Sign out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- top navigation bar -->
+  <!-- offcanvas -->
+  <div class="offcanvas offcanvas-start sidebar-nav bg-dark" tabindex="-1" id="sidebar">
+    <div class="offcanvas-body p-0">
+      <nav class="navbar-dark">
+        <ul class="navbar-nav">
+          <li>
+            <div class="text-muted small fw-bold text-uppercase px-3">
+              CORE
+            </div>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-3 active">
+              <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="my-4">
+            <hr class="dropdown-divider bg-light" />
+          </li>
+          <li>
+            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+              Interface
+            </div>
+          </li>
+          <li>
+            <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
+              <span class="me-2"><i class="bi bi-layout-split"></i></span>
+              <span>Layouts</span>
+              <span class="ms-auto">
+                <span class="right-icon">
+                  <i class="bi bi-chevron-down"></i>
+                </span>
+              </span>
+            </a>
+            <div class="collapse" id="layouts">
+              <ul class="navbar-nav ps-3">
+                <li>
+                  <a href="#" class="nav-link px-3">
+                    <span class="me-2"><i class="bi bi-speedometer2"></i></span>
+                    <span>Dashboard</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-3">
+              <span class="me-2"><i class="bi bi-book-fill"></i></span>
+              <span>Pages</span>
+            </a>
+          </li>
+          <li class="my-4">
+            <hr class="dropdown-divider bg-light" />
+          </li>
+          <li>
+            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+              Addons
+            </div>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-3">
+              <span class="me-2"><i class="bi bi-graph-up"></i></span>
+              <span>Charts</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-3">
+              <span class="me-2"><i class="bi bi-table"></i></span>
+              <span>Tables</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!-- offcanvas -->
+  <main class="mt-5 pt-3">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Dashboard</h4>
+        </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Sold amount Chart
+            </div>
+            <div class="card-body">
+              <canvas id="soldAmount"></canvas>
+              <script type="module">
+                function getRandomColor() {
+                  var b = Math.floor(Math.random() * 256);
+                  return `${200},${10},${b}`;
+                }
+                var obj = <%- JSON.stringify(sold) %>
+                var soldAmount = []
+                var idfood = []
+                var food = []
+                var Color = []
+                var boder = []
+                for (let i = 0; i < obj.length; i++) {
+                  soldAmount.push(parseInt(obj[i].soldAmount))
+                  idfood.push(obj[i].IDFood)
+                  food.push(obj[i].Food.split(" "))
+                  var dummy = getRandomColor()
+                  Color.push(`rgba(${dummy},0.6)`)
+
+                  boder.push(`rgba(${dummy},1)`)
+                }
+                new Chart($('#soldAmount'), {
+                  type: 'bar',
+                  data: {
+                    labels: food,
+                    datasets: [{
+                      label: 'Sold amount ',
+                      data: soldAmount,
+                      backgroundColor: Color,
+                      borderColor: Color,
+                      borderWidth: 3
+                    }]
+                  },
+                  options: {
+                    plugins: {
+                      tooltip: {
+                        callbacks: {
+                          title: (context) => {
+                            console.log(context);
+                            return context[0].label.replaceAll(",", " ")
+                          }
+                        }
+                      }
+                    }
+                  }
+                })
+
+              </script>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-12  mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Scale sold on type of food
+            </div>
+            <div class="card-body">
+              <canvas id="Piechart" width="400" height="200"></canvas>
+              <script>
+                function getRandomColor() {
+                  var r = Math.floor(Math.random() * 256);
+                  return `${r},${100},${200}`;
+                }
+                var soldAmount = []
+                var type = []
+                var bck = []
+                const obj =  <%- JSON.stringify(type) %>
+                for (let i in obj) {
+                  soldAmount.push(obj[i].SoldAmount)
+                  type.push(obj[i].Type)
+                  bck.push(`rgba(${getRandomColor()},0.7)`)
+                }
+
+                const data = {
+                  labels: type,
+                  datasets: [{
+                    label: 'Sold scale of types',
+                    data: soldAmount,
+                    backgroundColor: bck,
+                    hoverOffset: 0
+                  }]
+                };
+                const config = {
+                  type: 'pie',
+                  data: data,
+                };
+                const myChart = new Chart(document.getElementById("Piechart"), config)
+
+              </script>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Area Chart Example
+            </div>
+            <div class="card-body">
+              <canvas id="LineChart" width="400" height="200"></canvas>
+            </div>
+            <script>
+              function getRandomColor() {
+                var r = Math.floor(Math.random() * 256);
+                return `${r},${100},${200}`;
+              }
+              var Amount = []
+              var date = []
+              var bck = []
+              const obj1 =  <%- JSON.stringify(SoldDate) %>
+              for (let i in obj1) {
+                var ngay = new Date(obj1[i].Date); 
+                var ntn = `${ngay.getDate()}/${ngay.getMonth()+1}/${ngay.getFullYear()}`
+
+                Amount.push(obj1[i].Amount)
+                date.push(ntn)
+                bck.push(`rgba(${getRandomColor()},0.7)`)
+              }
+
+              const Linedata = {
+                labels: date,
+                datasets: [{
+                  label: 'Sold by Date',
+                  data: Amount,
+                  fill: true,
+                  borderColor: 'rgb(75, 192, 192)',
+                  tension: 0.1
+                }]
+              };
+              const configLine = {
+                type: 'line',
+                data: Linedata,
+              };
+              const myChart1 = new Chart(document.getElementById("LineChart"), configLine)
+
+            </script>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-2 mb-3">
+          <div class="card">
+            <div class="card-header">
+              <span><i class="bi bi-table me-2"></i></span> Data Table
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="example" class="table table-striped data-table" style="width: 100%">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Food</th>
+                      <th>Images</th>
+                      <th>Price</th>
+                      <th>Left Amount</th>
+                      <th>Type</th>
+                      <th>Detail Infomation</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(let i in ListFood) {%>
+                    <tr>
+                      <td><%= ListFood[i].IDFood%></td>
+                      <td><%= ListFood[i].Food%></td>
+                      <td><img class="img" src="<%= ListFood[i].img_src%>" alt="<%= ListFood[i].Food%>"></td>
+                      <td><%= ListFood[i].Price%>$</td>
+                      <td><%= ListFood[i].Amount%></td>
+                      <td><%= ListFood[i].TypeID%></td>
+                      <td><%= ListFood[i].info_Detail%></td>
+                      <td>
+                        <div style="display: flex;justify-content: space-between;">
+                          <span><a href="Delete<%= ListFood[i].IDFood%>"class="btn btn-outline-danger">Delete</a></span>
+                          <span><a href="Update<%= ListFood[i].IDFood%>"class="btn btn-outline-primary">Update</a></span>  
+                        </div>
+                      </td>
+                    </tr>
+                    <%}%>
+                  </tbody>
+                  <style>
+                    .img{
+                      width: 40%;
+                    }
+                    tr td,th{
+                      text-align: center;
+                      justify-self: baseline;
+                    }
+                  </style>
+                  <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Images</th>
+                      <th>Food</th>
+                      <th>Price</th>
+                      <th>Left Amount</th>
+                      <th>Type</th>
+                      <th>Detail Infomation</th>
+                      <th>Action</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="./js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+  <script src="./js/jquery-3.5.1.js"></script>
+  <script src="./js/jquery.dataTables.min.js"></script>
+  <script src="./js/dataTables.bootstrap5.min.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+
+</html>

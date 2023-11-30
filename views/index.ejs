@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with FoodHut landing page.">
+    <meta name="author" content="Devcrud">
+    <title>FoodHut</title>
+
+    <!-- font icons -->
+    <link rel="stylesheet" href="assets/vendors/themify-icons/css/themify-icons.css">
+
+    <link rel="stylesheet" href="assets/vendors/animate/animate.css">
+
+    <!-- Bootstrap + FoodHut main styles -->
+    <link rel="stylesheet" href="assets/css/foodhut.css">
+    <style>
+        .button {
+            width: 70%;
+        }
+
+        .gallary-item img {
+            height: 100%;
+        }
+
+        .outer-div {
+            display: grid;
+            place-items: center;
+            /* Center vertically */
+            /* Other properties for outer-div */
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+
+    <!-- Navbar -->
+    <%- include('navbar.ejs')%>
+
+        <header id="home" class="header">
+            <div class="overlay text-white text-center">
+                <h1 class="display-2 font-weight-bold my-3">Food Hut</h1>
+                <h2 class="display-4 mb-5">Always fresh &amp; Delightful</h2>
+                <a class="btn btn-lg btn-primary" href="#gallary">View Our gallary</a>
+            </div>
+        </header>
+
+        <!--  About Section  -->
+        <div id="about" class="container-fluid wow fadeIn" id="about" data-wow-duration="1.5s">
+            <div class="row">
+                <div class="col-lg-6 has-img-bg"></div>
+                <div class="col-lg-6">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-8 py-5 my-5">
+                            <h2 class="mb-4">About Us</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, quisquam
+                                accusantium
+                                nostrum modi, nemo, officia veritatis ipsum facere maxime assumenda voluptatum enim!
+                                Labore
+                                maiores placeat impedit, vero sed est voluptas!Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. Expedita alias dicta autem, maiores doloremque quo perferendis, ut
+                                obcaecati harum, <br><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum
+                                necessitatibus iste,
+                                nulla recusandae porro minus nemo eaque cum repudiandae quidem voluptate magnam
+                                voluptatum?
+                                <br>Nobis, saepe sapiente omnis qui eligendi pariatur. quis voluptas. Assumenda facere
+                                adipisci quaerat. Illum doloremque quae omnis vitae.
+                            </p>
+                            <p><b>Lonsectetur adipisicing elit. Blanditiis aspernatur, ratione dolore vero asperiores
+                                    explicabo.</b></p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos ab itaque modi,
+                                reprehenderit
+                                fugit soluta, molestias optio repellat incidunt iure sed deserunt nemo magnam rem
+                                explicabo
+                                vitae. Cum, nostrum, quidem.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  gallary Section  -->
+        <div id="gallary" class="text-center bg-dark text-light has-height-md middle-items wow fadeIn">
+            <h2 class="section-title mb-2">OUR MENU</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-7 col-md-7 mb-4">
+                <ul class="nav nav-pills nav-justified mb-3 " id="pills-tab" role="tablist">
+                    <li class="nav-item type">
+                        <a class="nav-link active " data-toggle="pill" href="#foods" role="tab"
+                            aria-controls="pills-home" aria-selected="true">Foods</a>
+                    </li>
+                    <% for(let i=0 ;i<FoodTypes.length;i++){%>
+                        <li class="nav-item type">
+                            <a class="nav-link " data-toggle="pill" href="#" role="tab" aria-controls="pills-profile"
+                                aria-selected="false">
+                                <%= FoodTypes[i].Type%>
+                            </a>
+                        </li>
+                        <%}%>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="gallary row">
+            <% for(let i=0 ;i<Food_List.length;i++){%>
+                <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn <%= Food_List[i].TypeID%> ">
+                    <img src="<%= Food_List[i].img_src %>" class="gallary-img">
+                    <div href="#" class="gallary-overlay">
+                        <!-- <i class="gallary-icon ti-plus"></i> -->
+                        <div class="card container" style="background-color: transparent;border: none;">
+                            <div class="row outer-div">
+                                <div class="inner-div col-lg-12 text-center  ">
+                                    <h3 style=" color:#FF5464;">
+                                        <%= Food_List[i].Food %>
+                                    </h3>
+                                    <h6>Price: <span style="color: #FFD753;">
+                                            <%= Food_List[i].Price %>
+                                        </span></h6>
+                                </div>
+                                <br>
+                                <div class="col-lg-12 ">
+                                    <div class="row text-center py-2">
+                                        <form action="/Buynow" method="post" class="col-lg-4 px-0">
+                                            <input type="text" name="from" value="index" class="unchange"style="display: none;">
+                                            <input type="text" name="idfood" value="<%= Food_List[i].IDFood %>" class="unchange"style="display: none;">
+                                            <input type="text" name="iduser" value="<%= iduser %>" class="unchange"style="display: none;">
+                                            <input type="number" name="quantity" class="unchange" value="1"style="display: none;">
+                                            <button type="submit" id="BuyNow" class="button btn btn-outline-primary px-0"> Buy
+                                                Now</button>
+                                        </form>
+
+                                        <div class="col-lg-4 px-0">
+                                            <a href="/addCart/<%= Food_List[i].IDFood %>" id="AddCart"
+                                                class="button  btn btn-outline-primary px-0"> Add Cart</a>
+                                        </div>
+
+                                        <div class="col-lg-4 px-0">
+                                            <!-- <input type="text" class="unchange" value="<% Food_List[i].IDFood %>" name="idfood" style="display: none;"> -->
+                                            <a href="/Feedback<%= Food_List[i].IDFood %>" id="FeedBack"
+                                                class="button  btn btn-outline-primary px-0"> Comment
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <%}%>
+
+
+                    <!-- book a table Section  -->
+                    <!-- BLOG Section  -->
+                    <!-- REVIEWS Section  -->
+
+                    <%- include('footer.ejs')-%>
+
+                        <!-- core  -->
+                        <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
+
+                        <script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
+
+                        <!-- bootstrap affix -->
+                        <script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
+
+                        <!-- wow.js -->
+                        <script src="assets/vendors/wow/wow.js"></script>
+
+                        <!-- google maps -->
+                        <script async defer
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtme10pzgKSPeJVJrG1O3tjR6lk98o4w8&callback=initMap"></script>
+
+                        <!-- FoodHut js -->
+                        <script src="assets/js/foodhut.js"></script>
+
+
+</body>
+
+</html>

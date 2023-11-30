@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with FoodHut landing page.">
+    <meta name="author" content="Devcrud">
+    <title>FoodHut</title>
+
+    <!-- font icons -->
+    <link rel="stylesheet" href="assets/vendors/themify-icons/css/themify-icons.css">
+
+    <link rel="stylesheet" href="assets/vendors/animate/animate.css">
+    <!-- phông chữ tuyệt vời  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Bootstrap + FoodHut main styles -->
+    <link rel="stylesheet" href="assets/css/foodhut.css">
+    <style>
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .card {
+            background-color: transparent;
+        }
+
+        .card-body ul li {
+            background-color: transparent;
+        }
+
+        .button {
+            width: 70%;
+        }
+
+        .gallary-item img {
+            height: 100%;
+        }
+
+        .outer-div {
+            display: grid;
+            place-items: center;
+            /* Center vertically */
+            /* Other properties for outer-div */
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+    <%- include('navbar.ejs')%>
+        <!-- header -->
+        <header id="home" class="header">
+            <div class="overlay text-white text-center">
+                <h1 class="display-2 font-weight-bold my-3">Food Hut</h1>
+                <h2 class="display-4 mb-5">Always fresh &amp; Delightful</h2>
+                <a class="btn btn-lg btn-primary" href="#cart">View your cart</a>
+            </div>
+        </header>
+
+        <section class="h-100 gradient-custom" id="cart">
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center my-4">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Cart - <%=cart.length %> items</h5>
+                            </div>
+                            <div class="card-body">
+                                <% for(let i=0 ; i<cart.length;i++){%>
+                                    <!-- Single item -->
+                                    <form class="row mb-2 form" action="/" method="post">
+                                        <input type="text" name="from" value="cart" class="unchange"
+                                            style="display: none;">
+                                        <input type="text" value="<%=cart[i].IDFood%>" class="unchange" name="idfood"
+                                            style="display: none;">
+                                        <input type="text" value="<%=cart[i].UserID%>" class="unchange" name="iduser"
+                                            style="display: none;">
+                                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                            <!-- Image -->
+                                            <div class="bg-image hover-overlay hover-zoom ripple rounded"
+                                                data-mdb-ripple-color="light">
+                                                <img src="<%=cart[i].img_src%>" class="w-100" />
+                                                <a href="#!">
+                                                    <div class="mask"
+                                                        style="background-color: rgba(251, 251, 251, 0.2)">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <!-- Image -->
+                                        </div>
+                                        <!-- <form ></form> -->
+                                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                            <!-- Data -->
+                                            <p><strong>
+                                                    <%=cart[i].Food%>
+                                                </strong></p>
+                                            <a href="/deTail/">More Details</a>
+                                            <br>
+                                            <button id="" type="submit" class="remove btn btn-primary btn-sm me-1 mb-2"
+                                                data-toggle="tooltip" data-placement="bottom" title="Remove item">
+                                                <i class="fa-solid fa-trash fa-shake"></i>
+                                            </button>
+
+                                            <button id="" type="submit" class="buynow btn btn-success btn-sm me-1 mb-2"
+                                                data-placement="bottom" data-toggle="tooltip" title="Buy now">
+                                                <i class="fa-solid fa-cart-shopping"></i>
+                                            </button>
+
+                                            <button  type="submit" class="save btn btn-info btn-sm me-1 mb-2"
+                                                data-placement="bottom" data-toggle="tooltip" title="Save the change">
+                                                <i class="fa-solid fa-folder"></i>
+                                            </button>
+                                            <!-- Data -->
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 mb-4 mb-lg-0 gia">
+                                            <h6><strong>Price</strong></h6>
+                                            <hr>
+                                            <p>
+                                                $ <span class="price">
+                                                    <%=cart[i].Price %>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 mb-4 mb-lg-0 text-center">
+                                            <!-- Quantity -->
+                                            <h6><strong>Quantity</strong></h6>
+                                            <hr>
+                                            <div class="d-flex mb-4">
+                                                <button class="btn btn-primary px-1 button" type="button"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+
+                                                <div class="form-outline">
+                                                    <input min="1" name="quantity" value="<%=cart[i].Amount %>"
+                                                        type="number" class="form-control form1" />
+                                                </div>
+
+                                                <button class="btn btn-primary px-1 button" type="button"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- Quantity -->
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 mb-4 mb-lg-0 text-center">
+                                            <h6><strong>Total</strong></h6>
+                                            <hr>
+                                            <p>
+                                                $ <span class="Total">
+                                                    <%=cart[i].Total%>
+                                                </span>
+                                            </p>
+
+                                        </div>
+                                    </form>
+                                    <!-- Single item -->
+
+                                    <%} %>
+
+                            </div>
+                        </div>
+                        <div class="card mb-4 mb-lg-0">
+
+                        </div>
+                    </div>
+                    <form class="col-md-4" id="summary"  method="post" action="/BuyAll">
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>We accept</strong></p>
+                                <div class=" my-3 row">
+                                    <div class="custom-control custom-radio col-5">
+                                        <input id="credit" name="paymentMethod" type="radio" value="Credit card"
+                                            class="custom-control-input" checked required>
+                                        <label class="custom-control-label" for="credit">Credit card</label>
+                                    </div>
+                                    <div class="custom-control custom-radio col-4">
+                                        <input id="debit" name="paymentMethod" type="radio" value="Debit card"
+                                            class="custom-control-input" required>
+                                        <label class="custom-control-label" for="debit">Debit card</label>
+                                    </div>
+                                    <div class="custom-control custom-radio col-3">
+                                        <input id="paypal" name="paymentMethod" type="radio" value="PayPal"
+                                            class="custom-control-input" required>
+                                        <label class="custom-control-label" for="paypal">PayPal</label>
+                                    </div>
+                                </div>
+                                <label for="address">Address</label>
+                                <input type="text" name="Address" class="form-control" id="address"
+                                    placeholder="1234 Main St" required>
+                            </div>
+                            <input type="hidden" name="iduser" value= "<%=iduser%>">
+                            <%for(let i=0 ; i < cart.length;i++){%>
+                                <input type="hidden" name="idfood" value="<%=cart[i].IDFood%>">
+                                <input type="hidden" name="amount" value="<%=cart[i].Amount%>">
+                                <input type="hidden" name="price" value="<%=cart[i].Price%>">
+                                <%#`${cart[i].Food} +${}+${}` %>
+                            <%}%>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush"
+                                    style="background-color: transparent;">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                        <p>Products</p>
+                                        <p>$<span class="Total_cost">53.98</span></p>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        Shipping
+                                        <span>Free</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                        <div>
+                                            <strong>Total amount</strong>
+                                            <strong>
+                                                <p class="mb-0">(including VAT)</p>
+                                            </strong>
+                                        </div>
+                                        <strong>$<span class="Total_cost">53.98</span></strong>
+                                    </li>
+                                </ul>
+
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Go to checkout
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <%- include('footer.ejs')%>
+            <!-- end of page footer -->
+
+            <!-- core  -->
+            <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
+
+            <script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
+
+            <!-- bootstrap affix -->
+            <script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
+
+            <!-- wow.js -->
+            <script src="assets/vendors/wow/wow.js"></script>
+
+            <!-- google maps -->
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtme10pzgKSPeJVJrG1O3tjR6lk98o4w8&callback=initMap"></script>
+
+            <!-- FoodHut js -->
+            <script src="assets/js/foodhut.js"></script>
+
+
+
+</body>
+
+</html>
