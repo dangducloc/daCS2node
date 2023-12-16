@@ -13,6 +13,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
     integrity="sha512-SIMGYRUjwY8+gKg7nn9EItdD8LCADSDfJNutF9TPrvEo86sQmFMh6MyralfIyhADlajSxqc7G0gs7+MwWF/ogQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./js/jquery-3.5.1.js"></script>
+
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
   <title>Admin</title>
 </head>
@@ -28,110 +30,7 @@
 
 <body>
   <!-- top navigation bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-        aria-controls="offcanvasExample">
-        <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
-      </button>
-      <a class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold" href="#">Frontendfunn</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar"
-        aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="topNavBar">
-
-
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle ms-2" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <i class="bi bi-person-fill"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/Sign out">Sign out</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- top navigation bar -->
-  <!-- offcanvas -->
-  <div class="offcanvas offcanvas-start sidebar-nav bg-dark" tabindex="-1" id="sidebar">
-    <div class="offcanvas-body p-0">
-      <nav class="navbar-dark">
-        <ul class="navbar-nav">
-          <li>
-            <div class="text-muted small fw-bold text-uppercase px-3">
-              CORE
-            </div>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-3 active">
-              <span class="me-2"><i class="bi bi-speedometer2"></i></span>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li class="my-4">
-            <hr class="dropdown-divider bg-light" />
-          </li>
-          <li>
-            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-              Interface
-            </div>
-          </li>
-          <li>
-            <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
-              <span class="me-2"><i class="bi bi-layout-split"></i></span>
-              <span>Layouts</span>
-              <span class="ms-auto">
-                <span class="right-icon">
-                  <i class="bi bi-chevron-down"></i>
-                </span>
-              </span>
-            </a>
-            <div class="collapse" id="layouts">
-              <ul class="navbar-nav ps-3">
-                <li>
-                  <a href="#" class="nav-link px-3">
-                    <span class="me-2"><i class="bi bi-speedometer2"></i></span>
-                    <span>Dashboard</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-3">
-              <span class="me-2"><i class="bi bi-book-fill"></i></span>
-              <span>Pages</span>
-            </a>
-          </li>
-          <li class="my-4">
-            <hr class="dropdown-divider bg-light" />
-          </li>
-          <li>
-            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-              Addons
-            </div>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-3">
-              <span class="me-2"><i class="bi bi-graph-up"></i></span>
-              <span>Charts</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-3">
-              <span class="me-2"><i class="bi bi-table"></i></span>
-              <span>Tables</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+  <%- include('navSidebar.ejs') %>
   <!-- offcanvas -->
   <main class="mt-5 pt-3">
     <div class="container-fluid">
@@ -203,7 +102,7 @@
         <div class="col-lg-5 col-md-12  mb-3">
           <div class="card h-100">
             <div class="card-header">
-              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              <span class="me-2"><i class="bi bi-pie-chart-fill"></i></span>
               Scale sold on type of food
             </div>
             <div class="card-body">
@@ -246,7 +145,7 @@
           <div class="card h-100">
             <div class="card-header">
               <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-              Area Chart Example
+              Order amount by day
             </div>
             <div class="card-body">
               <canvas id="LineChart" width="400" height="200"></canvas>
@@ -258,15 +157,16 @@
               }
               var Amount = []
               var date = []
-              var bck = []
+              var bcka = []
               const obj1 =  <%- JSON.stringify(SoldDate) %>
+              
               for (let i in obj1) {
                 var ngay = new Date(obj1[i].Date); 
                 var ntn = `${ngay.getDate()}/${ngay.getMonth()+1}/${ngay.getFullYear()}`
 
                 Amount.push(obj1[i].Amount)
                 date.push(ntn)
-                bck.push(`rgba(${getRandomColor()},0.7)`)
+                bcka.push(`rgba(${getRandomColor()},0.7)`)
               }
 
               const Linedata = {
@@ -275,12 +175,13 @@
                   label: 'Sold by Date',
                   data: Amount,
                   fill: true,
-                  borderColor: 'rgb(75, 192, 192)',
+                  borderColor: bcka,
+                  backgroundColor: bcka,
                   tension: 0.1
                 }]
               };
               const configLine = {
-                type: 'line',
+                type: 'bar',
                 data: Linedata,
               };
               const myChart1 = new Chart(document.getElementById("LineChart"), configLine)
@@ -289,11 +190,11 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" id="tab">
         <div class="col-lg-12 col-md-2 mb-3">
           <div class="card">
             <div class="card-header">
-              <span><i class="bi bi-table me-2"></i></span> Data Table
+              <span><i class="bi bi-table me-2"></i></span> Data Table <a id="new" href="/newFood" class="btn btn-outline-success"><i class="bi bi-plus"></i>new Food</a>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -306,7 +207,7 @@
                       <th>Price</th>
                       <th>Left Amount</th>
                       <th>Type</th>
-                      <th>Detail Infomation</th>
+                      <!-- <th>Detail Infomation</th> -->
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -318,8 +219,8 @@
                       <td><img class="img" src="<%= ListFood[i].img_src%>" alt="<%= ListFood[i].Food%>"></td>
                       <td><%= ListFood[i].Price%>$</td>
                       <td><%= ListFood[i].Amount%></td>
-                      <td><%= ListFood[i].TypeID%></td>
-                      <td><%= ListFood[i].info_Detail%></td>
+                      <td><%= ListFood[i].Type%></td>
+                      <!-- <td><div><%- ListFood[i].info_Detail%></div></td> -->
                       <td>
                         <div style="display: flex;justify-content: space-between;">
                           <span><a href="Delete<%= ListFood[i].IDFood%>"class="btn btn-outline-danger">Delete</a></span>
@@ -330,6 +231,12 @@
                     <%}%>
                   </tbody>
                   <style>
+                    #new{
+                      float: inline-end;
+                    }
+                    #new a{
+                      text-decoration: none;
+                    }
                     .img{
                       width: 40%;
                     }
@@ -338,29 +245,25 @@
                       justify-self: baseline;
                     }
                   </style>
-                  <tfoot>
-                    <tr>
-                      <th>ID</th>
-                      <th>Images</th>
-                      <th>Food</th>
-                      <th>Price</th>
-                      <th>Left Amount</th>
-                      <th>Type</th>
-                      <th>Detail Infomation</th>
-                      <th>Action</th>
-                    </tr>
-                  </tfoot>
                 </table>
+                <br><br>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <%-include('chat.ejs')%>
   </main>
+  <script>
+    $('#meme').hide()
+    var randomNum = Math.floor(Math.random() * 6) + 1;
+    if(randomNum===1){
+      $('#meme').show()
+    }
+  </script>
   <script src="./js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
-  <script src="./js/jquery-3.5.1.js"></script>
   <script src="./js/jquery.dataTables.min.js"></script>
   <script src="./js/dataTables.bootstrap5.min.js"></script>
   <script src="./js/script.js"></script>

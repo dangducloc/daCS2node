@@ -20,7 +20,7 @@
     <!-- axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue@next"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
         <div class="container px-0" style="padding-top:200px;">
 
             <div class="row">
-                <div class="col-sm-5 col-md-6 col-12 pb-4" style="border: 2px white solid;">
+                <div class="col-sm-5 col-md-6 col-12 pb-4" style="border: 1px white solid;">
                     <div class="card" style="background-color: transparent !important; border: none;width:100%;">
                         <img class="card-img-top" src="<%=img%>" alt="Title"
                             style="width: 90%;margin-top:35px; align-self: center;">
@@ -38,7 +38,24 @@
                             <h2 class="card-title">
                                 <%=food%>
                             </h2>
-
+                            <button id="view" type="button" class="btn btn-primary">Show information</button>
+                            <div id="info-box">    
+                                <%-info%>
+                            </div>
+                            <script>
+                                $(document).ready(()=>{
+                                    $('#info-box').hide();
+                                    $('#view').click(()=>{
+                                        $('#info-box').toggle();
+                                        if($('#view').text()==='Show information'){
+                                            $('#view').text('Hide information');
+                                        }
+                                        else{
+                                            $('#view').text('Show information');
+                                        }
+                                    })
+                                })
+                            </script>
                         </div>
                         <h4>Top comments</h4>
                         <div id="topCom" style="overflow:auto; height: 200px;">
@@ -81,9 +98,9 @@
                             <h4>Leave a comment</h4>
                             <input name="foodid" id="foodid" text="text" value="<%=foodID %>" class="unchange" style="display:none">
                             <input name="iduser" id="userid" type="text" value="<%=userID %>" class="unchange" style="display:none">
-                            <label for="comment">Feedback</label>
+                            <label for="comment">Comment</label>
                             <textarea name="comment" id="commentera" msg cols="30" rows="7" class="form-control"
-                                placeholder="Your feedback" required></textarea>
+                                placeholder="Your comment" required></textarea>
                         </div>
                         <br>
 

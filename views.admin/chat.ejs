@@ -1,0 +1,179 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  .chat-box {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background: #e2e5e5;
+    width: 500px;
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  .chat-box>* {
+    font-family: 'Fira Code';
+  }
+
+  .chat-head {
+    width: inherit;
+    height: 45px;
+    background: #2c3e50;
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  .chat-head h2 {
+    color: white;
+    padding: 8px;
+    margin: 1px;
+    display: inline-block;
+  }
+
+  .chat-head img {
+    cursor: pointer;
+    float: right;
+    width: 25px;
+    margin: 10px;
+  }
+
+  .chat-body {
+    height: 355px;
+    width: inherit;
+    overflow: auto;
+    margin-bottom: 45px;
+  }
+
+  .chat-text {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    /* top: 0px; */
+    bottom: 0px;
+    height: 45px;
+    width: inherit;
+  }
+
+  .chat-text textarea {
+    width: inherit;
+    height: inherit;
+    box-sizing: border-box;
+    border: 1px solid #bdc3c7;
+    padding: 10px;
+    resize: none;
+  }
+
+  .chat-text textarea:active,
+  .chat-text textarea:focus,
+  .chat-text textarea:hover {
+    border-color: royalblue;
+  }
+
+  .msg-send {
+    background: #64e59a;
+  }
+
+  .msg-receive {
+    background: #61aee2;
+  }
+
+  .msg-send,
+  .msg-receive {
+    width: 80%;
+    min-height: 35px;
+    word-wrap: break-word;
+    content: initial;
+    padding: 5px 5px 5px 10px;
+    margin: 10px auto;
+    border-radius: 3px;
+    line-height: 30px;
+    position: relative;
+    color: white;
+  }
+
+  .msg-receive:before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border: 15px solid;
+    border-color: transparent #3498db transparent transparent;
+    left: -29px;
+    top: 7px;
+  }
+
+  .msg-send:after {
+    content: '';
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border: 15px solid;
+    border-color: transparent transparent transparent #2ecc71;
+    right: -29px;
+    top: 7px;
+  }
+
+  .msg-receive:hover,
+  .msg-send:hover {
+    opacity: .9;
+  }
+</style>
+<div class="wrapper" style="padding: 0px; margin: 0px;position:fixed;bottom: 0;right: 0;z-index:5;">
+  <div class="chat-box">
+    <div class="chat-head">
+      <h2>Chat Box</h2>
+      <img src="https://i.pinimg.com/originals/5d/84/38/5d8438e3753584cd7633cb5e74614e2a.jpg" title="Expand Arrow"
+        width="16">
+    </div>
+    <div class="chat-body">
+      <div class="msg-insert">
+      </div>
+      <div class="chat-text">
+        <textarea placeholder="Send" name="msg"></textarea>
+        <button style="height: 100%;border: none;background-color:white;" type="submit"><i class="fa fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+  $(function () {
+    var arrow = $('.chat-head img');
+    var textarea = $('.chat-text textarea');
+    var button = $('button')
+    $('.chat-body').hide()
+    button.click(() => {
+      if (textarea.val() != "") {
+        const storeArray =
+          $.ajax({
+            url: "/AI",
+            type: "POST", // Phương thức HTTP để gửi yêu cầu, có thể là GET hoặc POST
+            data: { role: "user", content: $('.chat-text textarea').val() } // Dữ liệu gửi kèm theo yêu cầu, có thể là một object hoặc một chuỗi URL-encoded
+          }).done(function (response) {
+            console.log(response)
+            $('.msg-insert').append("<div class='msg-send'>" + $('.chat-text textarea').val() + "</div>")
+            $('.msg-insert').append("<div class='msg-receive'>" + response.content + "</div>")
+            if ($.cookie('chat') === null || $.cookie('chat') === "" || $.cookie('chat') === "null" || $.cookie('chat') === undefined) {
+              //no cookie
+              $.cookie('chat', JSON.stringify([{ role: "user", content: $('.chat-text textarea').val() }, response]))
+            }
+            else {
+              //have cookie
+              var arr = JSON.parse($.cookie('chat'))
+              arr.push({ role: "user", content: $('.chat-text textarea').val() }, response)
+              $.cookie("chat", JSON.stringify(arr))
+            }
+
+            textarea.val('')
+          });
+
+      }
+    })
+    arrow.on('click', function () {
+      var src = arrow.attr('src');
+      $('.chat-body').slideToggle('fast');
+    });
+
+  });
+</script>

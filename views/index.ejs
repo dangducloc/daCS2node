@@ -30,7 +30,67 @@
             /* Center vertically */
             /* Other properties for outer-div */
         }
+
+        input:focus {
+            outline-offset: -2px;
+        }
+
+         .contain {
+
+            
+            width: 100%;
+            margin-top: -1em;
+            margin-bottom: 50px;
+            
+        } 
+
+        #submitsearch {
+            border: 1px solid rgb(138, 134, 134);
+            margin-left: -82px;
+            padding: 5px;
+            border-radius: 19px;
+            cursor: pointer;
+            padding-left: 10px;
+            padding-right: 8px;
+            padding-top: 4px;
+
+            display: none;
+            box-shadow: 0 0 1px black;
+            margin-right: 110px;
+        }
+
+        #searchInput {
+            width: 18%;
+
+            border: 1px solid #000;
+            border-radius: 30px;
+            font-size: 16px;
+            background-color: white;
+            background-image: url('https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-24.png');
+
+            background-position: 10px 7px;
+            background-repeat: no-repeat;
+            padding: 8px 20px 8px 40px;
+            -webkit-transition: width 0.8s ease-in-out;
+            transition: width 0.8s ease-in-out;
+            outline: none;
+            opacity: 0.9;
+
+        }
     </style>
+    <!-- core  -->
+    <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
+
+    <script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
+
+    <!-- bootstrap affix -->
+    <script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
+
+    <!-- wow.js -->
+    <script src="assets/vendors/wow/wow.js"></script>
+
+    <!-- FoodHut js -->
+    <script src="assets/js/foodhut.js"></script>
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
@@ -42,7 +102,7 @@
             <div class="overlay text-white text-center">
                 <h1 class="display-2 font-weight-bold my-3">Food Hut</h1>
                 <h2 class="display-4 mb-5">Always fresh &amp; Delightful</h2>
-                <a class="btn btn-lg btn-primary" href="#gallary">View Our gallary</a>
+                <a class="btn btn-lg btn-primary" href="#gallary">View Our Menu</a>
             </div>
         </header>
 
@@ -53,27 +113,31 @@
                 <div class="col-lg-6">
                     <div class="row justify-content-center">
                         <div class="col-sm-8 py-5 my-5">
-                            <h2 class="mb-4">About Us</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, quisquam
-                                accusantium
-                                nostrum modi, nemo, officia veritatis ipsum facere maxime assumenda voluptatum enim!
-                                Labore
-                                maiores placeat impedit, vero sed est voluptas!Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. Expedita alias dicta autem, maiores doloremque quo perferendis, ut
-                                obcaecati harum, <br><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum
-                                necessitatibus iste,
-                                nulla recusandae porro minus nemo eaque cum repudiandae quidem voluptate magnam
-                                voluptatum?
-                                <br>Nobis, saepe sapiente omnis qui eligendi pariatur. quis voluptas. Assumenda facere
-                                adipisci quaerat. Illum doloremque quae omnis vitae.
-                            </p>
-                            <p><b>Lonsectetur adipisicing elit. Blanditiis aspernatur, ratione dolore vero asperiores
-                                    explicabo.</b></p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos ab itaque modi,
-                                reprehenderit
-                                fugit soluta, molestias optio repellat incidunt iure sed deserunt nemo magnam rem
-                                explicabo
-                                vitae. Cum, nostrum, quidem.</p>
+                            <h2>Welcome to FoodHub- Your Ultimate Food Ordering Platform!</h2>
+
+                            Are you tired of the daily struggle of deciding what to eat? Look no further!
+                            <strong>FoodHub</strong> is here to save the day. We are an online food ordering platform
+                            that aims to make your life easier by providing a wide selection of delicious meals at your
+                            fingertips.
+
+                            With <strong>FoodHub</strong>, you can effortlessly explore hundreds of restaurants and
+                            eateries in your area. Our intelligent search system allows you to choose from a variety of
+                            cuisines, ranging from traditional Vietnamese dishes to tantalizing international flavors.
+
+                            But that's not all!<br> <strong>FoodHub</strong> offers special features to enhance your
+                            dining experience. You can save your favorite restaurants for quick and easy access in the
+                            future. Additionally, you have the opportunity to rate and write reviews about the places
+                            you've tried, helping other users make informed decisions based on accurate and reliable
+                            information.
+
+                            Ordering food online with <strong>FoodHub</strong> is incredibly simple. Just select a
+                            restaurant, browse their menu, customize your order, and proceed to checkout. With our
+                            user-friendly interface and secure payment options, you can enjoy a hassle-free ordering
+                            process from start to finish.<br>
+
+                            Join <strong>FoodHub</strong> today and say goodbye to the never-ending food dilemma. Let us
+                            take care of your cravings while you sit back, relax, and enjoy a delightful culinary
+                            experience.
                         </div>
                     </div>
                 </div>
@@ -99,14 +163,53 @@
                             </a>
                         </li>
                         <%}%>
-
                 </ul>
             </div>
-        </div>
+            <div class='contain row'>
+                <div class="col"></div>
+                
+                <input type="text" id="searchInput" placeholder="Search..">
+                <div id='submitsearch' class="col-6">
 
+                    <span>Search</span>
+
+                </div>
+                <script defer>
+                    const list = <%-JSON.stringify(Food_List )%> 
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#searchInput').bind('input propertychange', function () {
+                            let inputsearch =$(this).val().toLowerCase()
+                            // console.log(inputsearch);
+                            $('.gallary-item ').hide()
+                            let arr =[]
+                            for (var i in list) {
+                                if (list[i].Food.toLowerCase().includes(inputsearch)=== true || list[i].info_Detail.toLowerCase().includes(inputsearch)=== true){
+                                    arr.push(list[i].IDFood)
+                                }
+                            }
+                            console.log(arr);
+                            var str = ``
+                            for(let i in arr){
+                                str += `#${arr[i]},`
+                            }
+                            console.log(str.slice(0, -1)); 
+                            $(`${str.slice(0, -1)}`).show()
+                            if($(this).val()===''){
+                                $('.gallary-item ').show()
+                            }
+                        });
+                    })
+                </script>
+                <div class="col"></div>
+            </div>
+        </div>
+        
         <div class="gallary row">
             <% for(let i=0 ;i<Food_List.length;i++){%>
-                <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn <%= Food_List[i].TypeID%> ">
+                <div id="<%=Food_List[i].IDFood%>" class="col-sm-6 col-lg-3 gallary-item wow fadeIn <%= Food_List[i].TypeID%> ">
                     <img src="<%= Food_List[i].img_src %>" class="gallary-img">
                     <div href="#" class="gallary-overlay">
                         <!-- <i class="gallary-icon ti-plus"></i> -->
@@ -117,18 +220,23 @@
                                         <%= Food_List[i].Food %>
                                     </h3>
                                     <h6>Price: <span style="color: #FFD753;">
-                                            <%= Food_List[i].Price %>
+                                            <%= Food_List[i].Price %>$
                                         </span></h6>
                                 </div>
                                 <br>
                                 <div class="col-lg-12 ">
                                     <div class="row text-center py-2">
                                         <form action="/Buynow" method="post" class="col-lg-4 px-0">
-                                            <input type="text" name="from" value="index" class="unchange"style="display: none;">
-                                            <input type="text" name="idfood" value="<%= Food_List[i].IDFood %>" class="unchange"style="display: none;">
-                                            <input type="text" name="iduser" value="<%= iduser %>" class="unchange"style="display: none;">
-                                            <input type="number" name="quantity" class="unchange" value="1"style="display: none;">
-                                            <button type="submit" id="BuyNow" class="button btn btn-outline-primary px-0"> Buy
+                                            <input type="text" name="from" value="index" class="unchange"
+                                                style="display: none;">
+                                            <input type="text" name="idfood" value="<%= Food_List[i].IDFood %>"
+                                                class="unchange" style="display: none;">
+                                            <input type="text" name="iduser" value="<%= iduser %>" class="unchange"
+                                                style="display: none;">
+                                            <input type="number" name="quantity" class="unchange" value="1"
+                                                style="display: none;">
+                                            <button type="submit" id="BuyNow"
+                                                class="button btn btn-outline-primary px-0"> Buy
                                                 Now</button>
                                         </form>
 
@@ -161,23 +269,7 @@
 
                     <%- include('footer.ejs')-%>
 
-                        <!-- core  -->
-                        <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
 
-                        <script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
-
-                        <!-- bootstrap affix -->
-                        <script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
-
-                        <!-- wow.js -->
-                        <script src="assets/vendors/wow/wow.js"></script>
-
-                        <!-- google maps -->
-                        <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtme10pzgKSPeJVJrG1O3tjR6lk98o4w8&callback=initMap"></script>
-
-                        <!-- FoodHut js -->
-                        <script src="assets/js/foodhut.js"></script>
 
 
 </body>

@@ -21,9 +21,7 @@ const Conn = new connect.PoolOf_conn(process.env.HOST, process.env.USER, process
 const pool = connect.MakePool(Conn)
 
 const rs = await connect.Food_List(pool)
-rs.sort(function (a, b) {//random the list
-	return Math.random() - 0.5;
-});
+
 const types = await connect.Food_Types(pool)
 // console.log(types)
 // //const menu = rs.map(item => item.Food)
@@ -70,12 +68,12 @@ app.post("/login", async (request, response) => {
 	var pass = request.body.pass
 	const rs = await connect.Login(pool, name, pass)
 	if (rs === 0) {
-		console.log("signup fail")
+		console.log("signin fail")
 		return response.redirect('/')
 
 	}
 	if (rs === 1) {
-		console.log("signup success")
+		console.log("signin success")
 		let options = {
 			maxAge: 1000 * 60 * 60, // would expire after 60 minutes
 			httpOnly: true, // The cookie only accessible by the web server
@@ -284,6 +282,7 @@ app.get('/Feedback:id', async (req, res) => {
 			username: username,
 			userID: userid,
 			food: food[0].Food,
+			info: food[0].info_Detail,
 			foodID: foodID,
 			img: food[0].img_src,
 			comment: List_Com,
@@ -329,5 +328,5 @@ app.post('/Post_comment', async (req, res) => {
 
 app.use(express.static('./public_html'))
  app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
+	console.log(`http://localhost:${port}`)
 })

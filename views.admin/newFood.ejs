@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+  <script src="./js/jquery-3.5.1.js"></script>
+
+
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <title>Admin</title>
+</head>
+<style>
+  @media (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+      display: flex !important;
+      flex-basis: revert;
+      flex-direction: row-reverse;
+    }
+  }
+</style>
+
+<body>
+  <!-- top navigation bar -->
+  <%- include('navSidebar.ejs') %>
+    <!-- offcanvas -->
+    <main class="mt-5 pt-3">
+      <div class="container my-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-9">
+            <h1 class="mb-3">New Food</h1>
+            <form method="post" action="/new" enctype="multipart/form-data">
+              <div class="row g-3">
+                <div class="col-8">
+                  <div class="row">
+                    
+                    <div class="col-md-10">
+                      <label for="Food" class="form-label">Food Name</label>
+                      <input type="text"  class="form-control" id="Food" name="Food" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="type" class="form-label">Type</label>
+                      <select class="form-select" name="type" id="type" required>
+                            <% for(let i=0 ; i < types.length; i++){ %>
+                              <option value="<%=types[i].IDType %>">
+                                <%=types[i].Type %>
+                              </option>
+                            <% }%>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="price" class="form-label">Price</label>
+                      <input type="number" min="1"  class="form-control" id="price" name="Price"
+                        required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="LeftAmount" class="form-label">LeftAmount</label>
+                      <input type="number"  min="1" class="form-control" id="Amount"
+                        name="Amount" required>
+                    </div>
+                    <div class="col-12">
+                      <label for="info" class="form-label">Detail infomation</label>
+                      <textarea class="form-control" id="info" name="content" rows="50"></textarea>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col"></div>
+                        <div class="col-md-6">
+                          <button type="submit" class="btn btn-dark w-100 fw-bold">Upload</button>
+                        </div>
+                        <div class="col"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <label for="img">Image here</label>
+                  <div id="preview" style="width: 100%;"></div>
+                  <input type="file" name="img" id="img" onchange="getImagePreview(event)">
+                </div>
+
+
+              </div>
+            </form>
+            <script>
+              let editor;
+              ClassicEditor
+                .create(document.querySelector('#info'))
+                .then(newEditor => {
+                  editor = newEditor;
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+              // editor.setData('your text data');
+
+            </script>
+          </div>
+        </div>
+      </div>
+      <br><br>
+      
+    </main>
+    <script>
+      $('#meme').hide()
+      var randomNum = Math.floor(Math.random() * 6) + 1;
+      if(randomNum===1){
+        $('#meme').show()
+      }
+    </script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <script src="./js/jquery.dataTables.min.js"></script>
+    <script src="./js/dataTables.bootstrap5.min.js"></script>
+    <script src="./js/script.js"></script>
+
+    <script>
+      function getImagePreview(event) {
+        var image = URL.createObjectURL(event.target.files[0]);
+        var imagediv = document.getElementById('preview');
+        var newimg = document.createElement('img');
+        imagediv.innerHTML = '';
+        newimg.src = image;
+        newimg.width = "365";
+        imagediv.appendChild(newimg);
+      }
+
+    </script>
+    <%-include('chat.ejs')%>
+</body>
+
+</html>

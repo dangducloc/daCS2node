@@ -49,9 +49,14 @@ export async function Login(a, name, pass) {
     const [rs] = await a.query("SELECT COUNT(*) FROM user_table WHERE User_name = ?AND Pass = ?", [name, pass])
     return parseInt(rs[0]['COUNT(*)'])
 }
+export async function LoginAdmin(a, name, pass) {
+
+    const [rs] = await a.query("SELECT COUNT(*) FROM admin WHERE name = ?AND pass = ?", [name, pass])
+    return parseInt(rs[0]['COUNT(*)'])
+}
 
 export async function Food_List(pool) {
-    const qr = "SELECT * FROM food "
+    const qr = "SELECT IDFood,Food,Price,TypeID,Amount,img_src,info_Detail,Type FROM food JOIN type_of_food ON TypeID = type_of_food.IDType"
     const [rs] = await pool.query(qr)
     return rs;
 }
@@ -208,39 +213,114 @@ export async function BuyAll(pool, arr2D) {
 }
 export async function deleteCart(pool, iduser) {
     var del = `DELETE FROM cart WHERE UserID = ?`
-    await pool.query(del,[iduser])
+    await pool.query(del, [iduser])
 }
 
-export async function SoldAmount(pool){
+export async function SoldAmount(pool) {
     var Sold = `
-    SELECT \`order_detail\`.\`IDFood\`,\`food\`.\`Food\`,
-    SUM(\`order_detail\`.\`Amount\`) AS soldAmount 
-    FROM \`order_detail\` JOIN \`food\` 
-    ON \`food\`.\`IDFood\` = \`order_detail\`.\`IDFood\`
-    GROUP BY \`order_detail\`.\`IDFood\`
+    SELECT order_detail.IDFood,food.Food,
+    SUM(order_detail.Amount) AS soldAmount 
+    FROM order_detail JOIN food 
+    ON food.IDFood = order_detail.IDFood
+    WHERE state = 1
+    GROUP BY order_detail.IDFood
     `
     var [rs] = await pool.query(Sold)
     return rs
 }
-export async function typeFoodSold(pool){
+export async function typeFoodSold(pool) {
     var sql = `
     SELECT type_of_food.Type, food.TypeID , COUNT(food.TypeID) AS SoldAmount
     FROM order_detail JOIN food 
     ON order_detail.IDFood = food.IDFood 
     JOIN type_of_food 
     ON food.TypeID = type_of_food.IDType 
+    WHERE state = 1
     GROUP BY food.TypeID;`
     var [rs] = await pool.query(sql)
     return rs
 }
-export async function Sold_by_Date(pool){
+export async function Sold_by_Date(pool) {
     const sql = `SELECT Date(general_info_order.Date) AS Date,SUM(order_detail.Amount)AS Amount 
     FROM general_info_order
     JOIN order_detail ON general_info_order.IDOrder = order_detail.IDOrder
+    WHERE state = 1
     GROUP BY date(general_info_order.Date);`
     var [rs] = await pool.query(sql)
-    return rs 
+    return rs
 }
-export async function upDateFood(){
-    
+export async function upDateFood(pool, id, name, price, amount, type, info, foodimg) {
+    if (foodimg !== '' && info !== '') {
+        var update = `
+    UPDATE food
+    SET Food = ? , Price = ?, Amount = ?, 
+    TypeID = ?, img_src = ?, info_Detail = ?
+    WHERE IDFood = ?
+    `
+        var arr = [name, price, amount, type, foodimg, info, id]
+        await pool.query(update, arr)
+    }
+    if (info === '' && foodimg !== '') {
+        var update = `
+    UPDATE food
+    SET Food = ? , Price = ?, Amount = ?, 
+    TypeID = ?, img_src = ?
+    WHERE IDFood = ?
+    `
+        var arr = [name, price, amount, type, foodimg, id]
+        await pool.query(update, arr)
+    }
+    if (info !== '' && foodimg === '') {
+        var update = `
+    UPDATE food
+    SET Food = ? , Price = ?, Amount = ?, 
+    TypeID = ?, info_Detail = ?
+    WHERE IDFood = ?
+    `
+        var arr = [name, price, amount, type, info, id]
+        await pool.query(update, arr)
+    }
+    else {
+        var update = `
+    UPDATE food
+    SET Food = ? , Price = ?, Amount = ?, 
+    TypeID = ?
+    WHERE IDFood = ?
+    `
+        var arr = [name, price, amount, type, id]
+        await pool.query(update, arr)
+
+    }
 }
+export async function AddFood(pool, name, price, amount, type, info, foodimg) {
+
+    var values = [name, price, amount, type, info, foodimg]
+    var sql = `INSERT INTO food(Food,Price,Amount,TypeID,info_detail,img_src) 
+    VALUES (?) 
+    `
+    await pool.query(sql, values)
+
+}
+export async function DeleteFood(pool, id) {
+    var sql = `DELETE FROM food WHERE IDFood = ?`
+    var values = [id]
+    await pool.query(sql, values)
+}
+export async function getDetail(pool) {
+    var sql = `
+    SELECT STT,User_name,Food,Date,Address,order_detail.Amount,Payment,state FROM order_detail JOIN food ON order_detail.IDFood = food.IDFood 
+    JOIN general_info_order ON order_detail.IDOrder=general_info_order.IDOrder 
+    JOIN user_table ON user_table.IDUser=general_info_order.IDUser;`
+    var [rs] = await pool.query(sql)
+    return rs
+}
+
+export async function stateUpdate(pool, id, state) {
+    var sql = `
+    UPDATE order_detail
+    SET state = ?
+    WHERE STT = ?
+    `
+    var [rs] = await pool.query(sql,[state,id])
+}
+//helpppppp

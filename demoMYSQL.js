@@ -9,57 +9,44 @@ doenv.config()
 const Conn = new u.PoolOf_conn (process.env.HOST , process.env.USER , process.env.PASS,process.env.DB)
 const pool = u.MakePool(Conn)
 
-const rs = await u.GETidUser(pool,"Ánh Ly")
+const rs = await u.Sold_by_Date(pool)
+console.log(rs);
 try {
-    // await u.SavetheCange(pool,1,11,2)
-    const rs = await u.Types(pool)
     console.log(rs);
 } catch (error) {
     console.log(error.stack)
 }
 
-
-const json =  `{
-  "paymentMethod": "Credit card",
-  "Address": "huỳnh văng nghệ",
-  "iduser": "1",
-  "idfood": [
-      "15",
-      "16",
-      "1",
-      "9",
-      "8",
-      "13",
-      "5",
-      "2",
-      "14",
-      "10"
-  ],
-  "amount": [
-      "3",
-      "2",
-      "1",
-      "1",
-      "1",
-      "2",
-      "1",
-      "1",
-      "1",
-      "1"
-  ],
-  "prce": [
-      5,
-      7,
-      20,
-      10,
-      5,
-      5,
-      30,
-      15,
-      5,
-      25
-  ]
-}`
+function getDaysArray(startDate, endDate) {
+    for (var arr=[],dt=new Date(startDate); dt<=endDate; dt.setDate(dt.getDate()+1)) {
+      arr.push(new Date(dt));
+    }
+    return arr;
+  }
+  
+  var startDate = rs[0].Date;
+//   console.log(startDate);
+  var endDate = rs[rs.length-1].Date;
+  var daysArray = getDaysArray('2023-11-19T17:00:00.000Z', endDate);
+  var nwArr = []
+  for (let i = 0; i < daysArray.length; i++) {
+    var date = daysArray[i]
+    let a = 1
+    for (let j = 0; j < rs.length; j++) {
+        if(date.getTime() == rs[j].Date.getTime()){
+            nwArr.push({Date:date,Amount:rs[j].Amount})
+            a = 2  
+            break
+        }
+    }
+    if(a!==2){
+        nwArr.push({Date:date,Amount:0}) 
+    }
+    
+  }
+// console.log(daysArray);
+console.log(nwArr);
+  
 
 // const obj = JSON.parse(json)
 // const general = [parseInt(obj.iduser),obj.Address,obj.paymentMethod]
