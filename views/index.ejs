@@ -186,7 +186,7 @@
                             $('.gallary-item ').hide()
                             let arr =[]
                             for (var i in list) {
-                                if (list[i].Food.toLowerCase().includes(inputsearch)=== true || list[i].info_Detail.toLowerCase().includes(inputsearch)=== true){
+                                if (list[i].Food.toLowerCase().includes(inputsearch)=== true || list[i].info_Detail.toLowerCase().includes(inputsearch)=== true|| list[i].Type.toLowerCase().includes(inputsearch)=== true){
                                     arr.push(list[i].IDFood)
                                 }
                             }
